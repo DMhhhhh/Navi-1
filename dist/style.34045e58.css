@@ -1,25 +1,10 @@
 /*css reset*/
-* {
-    box-sizing: border-box
-}
-
-*:before, *:after {
-    box-sizing: border-box
-}
-
-* {
-    margin: 0;
-    padding: 0
-}
-
-ul, ol {
-    list-style: none
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
+* {box-sizing: border-box}
+*:before, *:after {box-sizing: border-box}
+* {margin: 0;padding: 0}
+ul, ol {list-style: none}
+a {color: inherit;text-decoration: none;}
+div{user-select: none}
 
 /*style*/
 body {
@@ -89,6 +74,7 @@ body {
     margin-bottom: 20px;
     border-radius: 4px;
     padding: 15px;
+    position: relative;
 }
 
 .siteList .site > .logo {
@@ -124,4 +110,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.siteList .removeButton{
+    position: absolute;
+    top: 1%;
+    right: 2%;
 }

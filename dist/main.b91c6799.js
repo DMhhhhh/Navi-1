@@ -104,15 +104,50 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"main.js":[function(require,module,exports) {
+var X = localStorage.getItem('X');
+var XObject = JSON.parse(X);
+var hashMap = XObject || [{ logo: 'G', url: 'https://google.com' }];
+var $siteList = $('.siteList');
+var $lastList = $siteList.find('li.last');
+
+var simplifyUrl = function simplifyUrl(url) {
+    return url.replace('https://', '').replace('http://', '').replace('www.', '').replace('/', '');
+};
+
+var render = function render() {
+    $siteList.find('li:not(.last)').remove();
+    hashMap.forEach(function (node, index) {
+        var link = simplifyUrl(node.url);
+        var $li = $('\n            <li>\n                <div class="site">\n                    <div class="logo">' + node.logo + '</div>\n                    <div class="link">' + link + '</div>\n                    <div class="removeButton">\n                        <svg class="icon">\n                            <use xlink:href="#icon-Remove1"></use>\n                        </svg>\n                    </div>\n                </div>            \n            </li>\n        ').insertBefore($lastList);
+        $('.site').on('click', function () {
+            open(node.url);
+        });
+        $('.removeButton').on('click', function (e) {
+            e.stopPropagation();
+            hashMap.splice(index, 1);
+            render();
+        });
+    });
+};
+render();
+
 $('.addButton').on('click', function () {
     var url = window.prompt('请问你要添加的网址是什么？');
     if (url.indexOf('http') !== 0) {
         url = 'https://' + url;
     }
-    var $siteList = $('.siteList');
-    var $lastList = $siteList.find('li.last');
-    var $li = $('\n        <li>\n            <a href="' + url + '">\n                <div class="site">\n                <div class="logo">' + url[0] + '</div>\n                <div class="link">' + url + '</div>\n            </div>\n            </a>\n        </li>\n    ').insertBefore($lastList);
+    var logo = simplifyUrl(url)[0].toLocaleUpperCase();
+    hashMap.push({
+        logo: logo,
+        url: url
+    });
+    render();
 });
+
+window.onbeforeunload = function () {
+    var string = JSON.stringify(hashMap);
+    localStorage.setItem('X', string);
+};
 },{}],"C:\\Users\\Murra\\AppData\\Local\\Yarn\\Data\\global\\node_modules\\parcel\\src\\builtins\\hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -142,7 +177,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '13006' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '3436' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
