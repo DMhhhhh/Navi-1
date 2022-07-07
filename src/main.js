@@ -28,10 +28,10 @@ const render = () => {
                 </div>            
             </li>
         `).insertBefore($lastList)
-        $('.site').on('click', () => {
-            open(node.url)
+        $li.on('click', () => {
+            window.open(node.url)
         })
-        $('.removeButton').on('click', (e) => {
+        $li.on('click', '.removeButton', (e) => {
             e.stopPropagation()
             hashMap.splice(index, 1)
             render()
@@ -58,3 +58,16 @@ window.onbeforeunload = () => {
     const string = JSON.stringify(hashMap)
     localStorage.setItem('X', string)
 }
+
+$(document).on('keydown', (e) => {
+    const {key} = e
+    for (let i = 0; i < hashMap.length; i++) {
+        if (hashMap[i].logo.toLocaleLowerCase() === key.toLocaleLowerCase()) {
+            window.open(hashMap[i].url)
+        }
+    }
+})
+
+$(document).on('keydown', "input", (e) => {
+    e.stopPropagation()
+})
